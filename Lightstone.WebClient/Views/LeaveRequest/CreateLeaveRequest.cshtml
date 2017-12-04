@@ -22,12 +22,12 @@
            
             <div class="form-group">
                 @Html.LabelFor(model => model.LeaveFrom, htmlAttributes: new { @for = "leaveFrom" })
-                @Html.TextBoxFor(model => model.LeaveFrom, new { @class = "form-control", id = "leaveFrom", @placeholder = "MM-dd-yyyy" })
+                @Html.TextBoxFor(model => model.LeaveFrom, new { @class = "form-control", id = "leaveFrom", @placeholder = "MM-dd-yyyy", @type="date" })
                 @Html.ValidationMessageFor(model => model.LeaveFrom, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.LeaveTo, htmlAttributes: new { @for = "leaveFrom" })
-                @Html.TextBoxFor(model => model.LeaveTo, new { @class = "form-control", id = "leaveTo", @placeholder = "MM-dd-yyyy" })
+                @Html.TextBoxFor(model => model.LeaveTo, new { @class = "form-control", id = "leaveTo", @placeholder = "MM-dd-yyyy", @type = "date" })
                 @Html.ValidationMessageFor(model => model.LeaveTo, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
