@@ -1,0 +1,83 @@
+﻿@using Lightstone.PresentationLayer.ViewModels;
+
+@{
+    ViewBag.Title = "Leave Requests";
+}
+
+@model List<LeaveRequestViewModel>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Leave History</h3>
+    </div>
+    <div class="col-xs-12 button-container">
+        @if (!IsManager.Value)
+        {
+            <a class="btn btn-success" href="@Url.Action("CreateLeaveRequest", "LeaveRequest")">Create</a>
+        }
+    </div>
+    <div class="col-xs-12">
+        <table class="table table-condensed table-striped table-container">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    @if (IsManager.Value)
+                    {
+                        <th>Requested By</th>
+                    }
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LeaveRequestViewModel request in Model)
+                {
+                    <tr>
+                        <td>@request.LeaveFromText</td>
+                        <td>@request.LeaveToText</td>
+                        <td>@request.LeaveReason</td>
+                        <td>@request.StatusName</td>
+                        @if (IsManager.Value)
+                        {
+                            <td>@request.EmployeeName</td>
+                        }
+                        <td>
+                            @if (IsManager.Value && request.IsPending)
+                            {
+                                <button class="btn btn-default btn-approve" data-url="@Url.Action("ApproveLeaveRequest", "LeaveRequest")"
+                                        data-id="@request.LeaveRequestId">
+                                    Approve
+                                </button>
+                                <button class="btn btn-default btn-decline" data-url="@Url.Action("DeclineLeaveRequest", "LeaveRequest")"
+                                        data-id="@request.LeaveRequestId">
+                                    Decline
+                                </button>
+                            }
+                            else if (!IsManager.Value && request.IsPending)
+                            {
+                                <a class="btn btn-default btn-edit" href="@Url.Action("UpdateLeaveRequest", "LeaveRequest", new { leaveReuestId = request.LeaveRequestId})">
+                                    Edit
+                                </a>
+                                <button class="btn btn-default btn-delete" data-url="@Url.Action("DeleteLeaveRequest", "LeaveRequest")"
+                                        data-id="@request.LeaveRequestId">
+                                    Delete
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/lightstone/leaveRequest.js")" type="text/javascript"></script>
+}
+
+
+
+

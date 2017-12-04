@@ -1,0 +1,45 @@
+﻿@using Lightstone.PresentationLayer.Models;
+
+@{
+    ViewBag.Title = "Leave Request";
+}
+
+@model LeaveRequestModel
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 form-container">
+        <div class="page-header">
+            <h1>Request Leave</h1>
+        </div>
+
+        @Html.Partial("_ValidationSummary")
+
+        @using (Html.BeginForm("CreateLeaveRequest", "LeaveRequest"))
+        {
+            @Html.AntiForgeryToken()
+           
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveFrom, htmlAttributes: new { @for = "leaveFrom" })
+                @Html.TextBoxFor(model => model.LeaveFrom, new { @class = "form-control", id = "leaveFrom", @placeholder = "MM-dd-yyyy" })
+                @Html.ValidationMessageFor(model => model.LeaveFrom, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveTo, htmlAttributes: new { @for = "leaveFrom" })
+                @Html.TextBoxFor(model => model.LeaveTo, new { @class = "form-control", id = "leaveTo", @placeholder = "MM-dd-yyyy" })
+                @Html.ValidationMessageFor(model => model.LeaveTo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @for = "leaveDescription" })
+                @Html.TextAreaFor(model => model.LeaveReason, new { @class = "form-control", id = "leaveDescription", @placeholder = "Enter reason for leave request.", cols = "10" })
+                @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a class="btn btn-default" href="@Url.Action("LeaveRequests", "LeaveRequest")">Cancel</a>
+        }
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+

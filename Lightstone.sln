@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightstone.WebClient", "Lightstone.WebClient\Lightstone.WebClient.csproj", "{3A605751-4676-4494-9C81-8E671A0B94AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightstone.PresentationLayer", "Lightstone.PresentationLayer\Lightstone.PresentationLayer.csproj", "{7C46A640-2201-4D50-8BC5-E88341C648AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightstone.Common", "Lightstone.Common\Lightstone.Common.csproj", "{A958A70C-45EE-452C-A1AB-25C73A02AF8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightstone.DataAccess", "Lightstone.DataAccess\Lightstone.DataAccess.csproj", "{3B28851E-CB30-4E7B-B3D1-D1EA8A852B8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A605751-4676-4494-9C81-8E671A0B94AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A605751-4676-4494-9C81-8E671A0B94AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A605751-4676-4494-9C81-8E671A0B94AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A605751-4676-4494-9C81-8E671A0B94AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C46A640-2201-4D50-8BC5-E88341C648AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C46A640-2201-4D50-8BC5-E88341C648AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C46A640-2201-4D50-8BC5-E88341C648AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C46A640-2201-4D50-8BC5-E88341C648AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A958A70C-45EE-452C-A1AB-25C73A02AF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A958A70C-45EE-452C-A1AB-25C73A02AF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A958A70C-45EE-452C-A1AB-25C73A02AF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A958A70C-45EE-452C-A1AB-25C73A02AF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B28851E-CB30-4E7B-B3D1-D1EA8A852B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B28851E-CB30-4E7B-B3D1-D1EA8A852B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B28851E-CB30-4E7B-B3D1-D1EA8A852B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B28851E-CB30-4E7B-B3D1-D1EA8A852B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87FC525C-C222-4CFD-8F8A-57172E7FC84E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,30 @@
+﻿@using Lightstone.PresentationLayer.ViewModels;
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@model LoginViewModel
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 form-container">
+        <div class="page-header">
+            <h1>Login</h1>
+        </div>
+
+        @Html.Partial("_ValidationSummary")
+
+        @using (Html.BeginForm("Login", "Account", new { returnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @for = "emailAddress" })
+                @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control", id = "emailAddress", @placeholder = "test@gmail.com", @type = "email" })
+                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+        }
+    </div>
+</div>

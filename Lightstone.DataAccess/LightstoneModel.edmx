@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LightstoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="EmployeeNumber" Type="varchar" MaxLength="20" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="250" />
+          <Property Name="CellphoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="EmployeeTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeType">
+          <Key>
+            <PropertyRef Name="EmployeeTypeId" />
+          </Key>
+          <Property Name="EmployeeTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeTypeCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeTypeName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsManager" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeaveRequest">
+          <Key>
+            <PropertyRef Name="LeaveRequestId" />
+          </Key>
+          <Property Name="LeaveRequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="LeaveFrom" Type="datetime" Nullable="false" />
+          <Property Name="LeaveTo" Type="datetime" Nullable="false" />
+          <Property Name="LeaveDescription" Type="varchar" MaxLength="4000" />
+          <Property Name="ActionManagerId" Type="int" />
+          <Property Name="RequestStatusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestStatus">
+          <Key>
+            <PropertyRef Name="RequestStatusId" />
+          </Key>
+          <Property Name="RequestStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestStatusCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RequestStatusName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Employee_EmployeeType_EmployeeTypeId">
+          <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeType">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Team_TeamId">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_Employee_ActionManagerId">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="ActionManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_Employee_EmployeeId">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_RequestStatus_RequestStatusId">
+          <End Role="RequestStatus" Type="Self.RequestStatus" Multiplicity="1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatus">
+              <PropertyRef Name="RequestStatusId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="RequestStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LightstoneModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeType" EntityType="Self.EmployeeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveRequest" EntityType="Self.LeaveRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestStatus" EntityType="Self.RequestStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_EmployeeType_EmployeeTypeId" Association="Self.FK_Employee_EmployeeType_EmployeeTypeId">
+            <End Role="EmployeeType" EntitySet="EmployeeType" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Team_TeamId" Association="Self.FK_Employee_Team_TeamId">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_Employee_ActionManagerId" Association="Self.FK_LeaveRequest_Employee_ActionManagerId">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_Employee_EmployeeId" Association="Self.FK_LeaveRequest_Employee_EmployeeId">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_RequestStatus_RequestStatusId" Association="Self.FK_LeaveRequest_RequestStatus_RequestStatusId">
+            <End Role="RequestStatus" EntitySet="RequestStatus" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequest" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LightstoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CellphoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeType" Relationship="Self.FK_Employee_EmployeeType_EmployeeTypeId" FromRole="Employee" ToRole="EmployeeType" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Employee_Team_TeamId" FromRole="Employee" ToRole="Team" />
+          <NavigationProperty Name="LeaveRequests" Relationship="Self.FK_LeaveRequest_Employee_ActionManagerId" FromRole="Employee" ToRole="LeaveRequest" />
+          <NavigationProperty Name="LeaveRequests1" Relationship="Self.FK_LeaveRequest_Employee_EmployeeId" FromRole="Employee" ToRole="LeaveRequest" />
+        </EntityType>
+        <EntityType Name="EmployeeType">
+          <Key>
+            <PropertyRef Name="EmployeeTypeId" />
+          </Key>
+          <Property Name="EmployeeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsManager" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_EmployeeType_EmployeeTypeId" FromRole="EmployeeType" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="LeaveRequest">
+          <Key>
+            <PropertyRef Name="LeaveRequestId" />
+          </Key>
+          <Property Name="LeaveRequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="LeaveFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LeaveTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LeaveDescription" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ActionManagerId" Type="Int32" />
+          <Property Name="RequestStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ActionManager" Relationship="Self.FK_LeaveRequest_Employee_ActionManagerId" FromRole="LeaveRequest" ToRole="Employee" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_LeaveRequest_Employee_EmployeeId" FromRole="LeaveRequest" ToRole="Employee" />
+          <NavigationProperty Name="RequestStatu" Relationship="Self.FK_LeaveRequest_RequestStatus_RequestStatusId" FromRole="LeaveRequest" ToRole="RequestStatus" />
+        </EntityType>
+        <EntityType Name="RequestStatu">
+          <Key>
+            <PropertyRef Name="RequestStatusId" />
+          </Key>
+          <Property Name="RequestStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestStatusCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RequestStatusName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LeaveRequests" Relationship="Self.FK_LeaveRequest_RequestStatus_RequestStatusId" FromRole="RequestStatus" ToRole="LeaveRequest" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Team_TeamId" FromRole="Team" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employee_EmployeeType_EmployeeTypeId">
+          <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeType">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Team_TeamId">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_Employee_ActionManagerId">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="ActionManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_Employee_EmployeeId">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveRequest_RequestStatus_RequestStatusId">
+          <End Role="RequestStatus" Type="Self.RequestStatu" Multiplicity="1" />
+          <End Role="LeaveRequest" Type="Self.LeaveRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatus">
+              <PropertyRef Name="RequestStatusId" />
+            </Principal>
+            <Dependent Role="LeaveRequest">
+              <PropertyRef Name="RequestStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LightstoneEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeTypes" EntityType="Self.EmployeeType" />
+          <EntitySet Name="LeaveRequests" EntityType="Self.LeaveRequest" />
+          <EntitySet Name="RequestStatus" EntityType="Self.RequestStatu" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="FK_Employee_EmployeeType_EmployeeTypeId" Association="Self.FK_Employee_EmployeeType_EmployeeTypeId">
+            <End Role="EmployeeType" EntitySet="EmployeeTypes" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Team_TeamId" Association="Self.FK_Employee_Team_TeamId">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_Employee_ActionManagerId" Association="Self.FK_LeaveRequest_Employee_ActionManagerId">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_Employee_EmployeeId" Association="Self.FK_LeaveRequest_Employee_EmployeeId">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveRequest_RequestStatus_RequestStatusId" Association="Self.FK_LeaveRequest_RequestStatus_RequestStatusId">
+            <End Role="RequestStatus" EntitySet="RequestStatus" />
+            <End Role="LeaveRequest" EntitySet="LeaveRequests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LightstoneModelStoreContainer" CdmEntityContainer="LightstoneEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="LightstoneModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="EmployeeNumber" ColumnName="EmployeeNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="CellphoneNumber" ColumnName="CellphoneNumber" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="EmployeeTypeId" ColumnName="EmployeeTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeTypes">
+            <EntityTypeMapping TypeName="LightstoneModel.EmployeeType">
+              <MappingFragment StoreEntitySet="EmployeeType">
+                <ScalarProperty Name="EmployeeTypeId" ColumnName="EmployeeTypeId" />
+                <ScalarProperty Name="EmployeeTypeCode" ColumnName="EmployeeTypeCode" />
+                <ScalarProperty Name="EmployeeTypeName" ColumnName="EmployeeTypeName" />
+                <ScalarProperty Name="IsManager" ColumnName="IsManager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveRequests">
+            <EntityTypeMapping TypeName="LightstoneModel.LeaveRequest">
+              <MappingFragment StoreEntitySet="LeaveRequest">
+                <ScalarProperty Name="LeaveRequestId" ColumnName="LeaveRequestId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="LeaveFrom" ColumnName="LeaveFrom" />
+                <ScalarProperty Name="LeaveTo" ColumnName="LeaveTo" />
+                <ScalarProperty Name="LeaveDescription" ColumnName="LeaveDescription" />
+                <ScalarProperty Name="ActionManagerId" ColumnName="ActionManagerId" />
+                <ScalarProperty Name="RequestStatusId" ColumnName="RequestStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestStatus">
+            <EntityTypeMapping TypeName="LightstoneModel.RequestStatu">
+              <MappingFragment StoreEntitySet="RequestStatus">
+                <ScalarProperty Name="RequestStatusId" ColumnName="RequestStatusId" />
+                <ScalarProperty Name="RequestStatusCode" ColumnName="RequestStatusCode" />
+                <ScalarProperty Name="RequestStatusName" ColumnName="RequestStatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="LightstoneModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
